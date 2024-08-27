@@ -28,7 +28,7 @@
 git clone https://github.com/Valcyclovir/othub-faucet
 ```
 ```
-cd xDaiTopUpBot
+cd othub-faucet
 ```
 2. Install dependencies:
 ```
