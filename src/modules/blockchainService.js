@@ -1,21 +1,31 @@
 const { ethers } = require('ethers');
-const { gnosisRpcUrl } = require('../config/index.js');
+const { networks } = require('../config/index.js');
 
-// Initialize ethers provider
-const provider = new ethers.providers.JsonRpcProvider(gnosisRpcUrl);
+function getProvider(networkName) {
+    const networkConfig = networks[networkName];
+    return new ethers.providers.JsonRpcProvider(networkConfig.rpcUrl, networkConfig.chainId);
+}
 
-// Function to check balance using ethers.js
-async function checkXDAIBalance(address) {
+async function checkBalance(networkName, address) {
+    const provider = getProvider(networkName);
     const balance = await provider.getBalance(address);
     return ethers.utils.formatEther(balance);
 }
 
-// Function to send xDai using ethers.js
-async function sendXDAIIfNeeded(senderPrivateKey, toAddress, amountInEther) {
+async function getCurrentGasPrice(networkName) {
+    const provider = getProvider(networkName);
+    const gasPrice = await provider.getGasPrice();
+    return ethers.utils.formatUnits(gasPrice, 'gwei');
+}
+
+async function sendTokenIfNeeded(networkName, senderPrivateKey, toAddress, amountInEther) {
+    const provider = getProvider(networkName);
     const wallet = new ethers.Wallet(senderPrivateKey, provider);
+    const currentGasPrice = await getCurrentGasPrice(networkName);
     const tx = {
         to: toAddress,
-        value: ethers.utils.parseEther(amountInEther.toString())
+        value: ethers.utils.parseEther(amountInEther.toString()),
+        gasPrice: ethers.utils.parseUnits(currentGasPrice, 'gwei')
     };
 
     const transaction = await wallet.sendTransaction(tx);
@@ -23,4 +33,4 @@ async function sendXDAIIfNeeded(senderPrivateKey, toAddress, amountInEther) {
     return transaction;
 }
 
-module.exports = { checkXDAIBalance, sendXDAIIfNeeded };
+module.exports = { checkBalance, sendTokenIfNeeded, getCurrentGasPrice };

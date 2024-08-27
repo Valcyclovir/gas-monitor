@@ -2,12 +2,13 @@
 
 ## Overview
 
-`OTHub Faucet` is an automated balance monitoring and top-up system designed for xDai wallets (or any other EVM wallet). It ensures that multiple wallets maintain a minimum gas balance by automatically topping them up when their balance falls below a predefined threshold. Integrated with Telegram, `OTHub Faucet` sends instant notifications for balance alerts and top-up transactions, providing users with up-to-date information on their wallet status.
+`OTHub Faucet` is an automated balance monitoring and top-up system designed for EVM gas tokens. It ensures that multiple wallets maintain a minimum gas balance by automatically topping them up when their balance falls below a predefined threshold. Integrated with Telegram, `OTHub Faucet` sends instant notifications for balance alerts and top-up transactions, providing users with up-to-date information on their wallet status.
 
 ## Features
 
-- **Multi-Wallet Monitoring**: Keep track of multiple xDai wallets and their balances simultaneously.
-- **Automated Top-Up**: Automatically sends xDai to wallets when their balance drops below a specified threshold.
+- **Multi-chain Monitoring**: Keep track of multiple EVM chains and their gas token balances simultaneously.
+- **Multi-Wallet Monitoring**: Keep track of multiple wallets and their gas token balances simultaneously.
+- **Automated Top-Up**: Automatically sends gas tokens to wallets when their balance drops below a specified threshold.
 - **Telegram Notifications**: Sends real-time alerts and transaction confirmations directly to a Telegram bot.
 - **Secure and Private**: Uses environment variables to securely manage sensitive information such as private keys and Telegram bot tokens.
 - **Easy to Configure**: Customize wallet addresses, balance thresholds, and notification preferences through a simple configuration.
@@ -18,7 +19,7 @@
 
 - Node.js (version 12.x or higher recommended)
 - A Telegram bot token and chat ID for notifications
-- An xDai hot wallet with sufficient funds for top-ups (also works on other evm chains)
+- An EVM hot wallet with sufficient funds for top-ups
 
 ### Installation
 
