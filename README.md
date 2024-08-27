@@ -1,8 +1,8 @@
-# xDaiAutoTopUp
+# OTHub Faucet
 
 ## Overview
 
-`xDaiTopUpBot` is an automated balance monitoring and top-up system designed for xDai wallets (or any other EVM wallet). It ensures that multiple wallets maintain a minimum gas balance by automatically topping them up when their balance falls below a predefined threshold. Integrated with Telegram, `xDaiTopUpBot` sends instant notifications for balance alerts and top-up transactions, providing users with up-to-date information on their wallet status.
+`OTHub Faucet` is an automated balance monitoring and top-up system designed for xDai wallets (or any other EVM wallet). It ensures that multiple wallets maintain a minimum gas balance by automatically topping them up when their balance falls below a predefined threshold. Integrated with Telegram, `OTHub Faucet` sends instant notifications for balance alerts and top-up transactions, providing users with up-to-date information on their wallet status.
 
 ## Features
 
@@ -25,7 +25,7 @@
 1. Clone the repository:
 
 ```
-git clone https://github.com/Valcyclovir/xDaiTopUpBot
+git clone https://github.com/Valcyclovir/othub-faucet
 ```
 ```
 cd xDaiTopUpBot
@@ -51,7 +51,7 @@ node index.js
 You can automate your script using crontab to run it hourly
 
 ```
-0 * * * * /root/xDaiTopUpBot/index.js
+0 * * * * /root/othub-faucet/index.js
 ```
 
 ### Disclaimer:
