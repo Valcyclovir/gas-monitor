@@ -2,36 +2,38 @@
 
 const { checkBalance, sendTokenIfNeeded } = require('./src/modules/blockchainService.js');
 const { sendMessage } = require('./src/modules/telegramService.js');
-const { walletAddresses, balanceThreshold, topUpAmount, senderPrivateKey, networks } = require('./src/config');
+const { walletAddresses, senderPrivateKey, senderWalletAddress, networks } = require('./src/config');
 
 async function monitorAndTopUpWallets() {
-    for (const [networkName, networkConfig] of Object.entries(networks)) {
-        const nativeCurrency = networkConfig.nativeCurrency;
-        const senderBalance = await checkBalance(networkName, networkConfig.senderWalletAddress);
-        console.log(`Faucet balance on ${networkName}: ${senderBalance} ${nativeCurrency}`);
+    for (let [networkName, networkConfig] of Object.entries(networks)) {
+        const { balanceThreshold, topUpAmount } = networkConfig;
 
-        if (parseFloat(senderBalance) < parseFloat(balanceThreshold[networkName])) {
-            console.log(`Faucet balance is below threshold on ${networkName}: ${senderBalance} ${nativeCurrency}`);
-            await sendMessage(`Alert: Faucet balance is low on ${networkName} (${senderBalance} ${nativeCurrency}). Please top up.`);
+        const senderBalance = await checkBalance(networkName, senderWalletAddress);
+        console.log(`Faucet balance on ${networkName}: ${senderBalance} ETH`);
+
+        if (parseFloat(senderBalance) < balanceThreshold) {
+            console.log(`Faucet balance is below threshold on ${networkName}: ${senderBalance} ETH`);
+            await sendMessage(`Alert: Faucet balance is low on ${networkName} (${senderBalance} ETH). Please top up.`);
         }
 
         for (let address of walletAddresses) {
             const balance = await checkBalance(networkName, address);
-            console.log(`Checking balance for ${address} on ${networkName}: ${balance} ${nativeCurrency}`);
+            console.log(`Checking balance for ${address} on ${networkName}: ${balance} ETH`);
 
-            if (parseFloat(balance) < parseFloat(balanceThreshold[networkName])) {
+            if (parseFloat(balance) < balanceThreshold) {
                 console.log(`Balance below threshold for ${address} on ${networkName}. Initiating top-up.`);
-                await sendMessage(`Initiating top-up for ${address} on ${networkName}. Current balance: ${balance} ${nativeCurrency}.`);
+                await sendMessage(`Initiating top-up for ${address} on ${networkName}. Current balance: ${balance} ETH.`);
+                
                 try {
-                    await sendTokenIfNeeded(networkName, senderPrivateKey, address, topUpAmount[networkName]);
+                    await sendTokenIfNeeded(networkName, senderPrivateKey, address, topUpAmount);
                     console.log(`Top-up successful for ${address} on ${networkName}`);
                     await sendMessage(`Top-up successful for ${address} on ${networkName}`);
                 } catch (error) {
-                    console.error(`Failed to send ${nativeCurrency} to ${address} on ${networkName}:`, error);
-                    await sendMessage(`Failed to send ${nativeCurrency} to ${address} on ${networkName}: ${error.message}`);
+                    console.error(`Failed to send ETH to ${address} on ${networkName}:`, error);
+                    await sendMessage(`Failed to send ETH to ${address} on ${networkName}: ${error.message}`);
                 }
             } else {
-                console.log(`Balance sufficient for ${address} on ${networkName} (${balance} ${nativeCurrency}).`);
+                console.log(`Balance sufficient for ${address} on ${networkName} (${balance} ETH).`);
             }
         }
     }
