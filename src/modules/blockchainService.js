@@ -29,7 +29,7 @@ async function sendTokenIfNeeded(networkName, senderPrivateKey, toAddress, amoun
     };
 
     const transaction = await wallet.sendTransaction(tx);
-    await transaction.wait(); // Wait for the transaction to be mined
+    await transaction.wait();
     return transaction;
 }
 
