@@ -13,7 +13,7 @@ module.exports = {
         },
         sepolia: {
             rpcUrl: process.env.SEPOLIA_RPC_URL,
-            chainId: 11155111,
+            chainId: 84532,
             topUpAmount: parseFloat(process.env.SEPOLIA_TOP_UP_AMOUNT),
             balanceThreshold: parseFloat(process.env.SEPOLIA_BALANCE_THRESHOLD),
         },
