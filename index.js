@@ -2,10 +2,12 @@
 
 const { checkBalance, sendETHIfNeeded } = require('./src/modules/blockchainService.js');
 const { sendMessage } = require('./src/modules/telegramService.js');
-const { walletAddresses, balanceThreshold, senderPrivateKey, senderWalletAddress, networks } = require('./src/config');
+const { walletAddresses, senderPrivateKey, senderWalletAddress, networks } = require('./src/config');
 
 async function monitorAndTopUpWallets() {
     for (let [networkName, networkConfig] of Object.entries(networks)) {
+        const { balanceThreshold, topUpAmount } = networkConfig;
+
         const senderBalance = await checkBalance(networkName, senderWalletAddress);
         console.log(`Faucet balance on ${networkName}: ${senderBalance} ETH`);
 
@@ -22,9 +24,6 @@ async function monitorAndTopUpWallets() {
                 console.log(`Balance below threshold for ${address} on ${networkName}. Initiating top-up.`);
                 await sendMessage(`Initiating top-up for ${address} on ${networkName}. Current balance: ${balance} ETH.`);
                 
-                // Use network-specific top-up amount
-                const topUpAmount = networkConfig.topUpAmount;
-
                 try {
                     await sendETHIfNeeded(networkName, senderPrivateKey, address, topUpAmount);
                     console.log(`Top-up successful for ${address} on ${networkName}`);

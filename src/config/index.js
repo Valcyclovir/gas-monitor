@@ -8,26 +8,29 @@ module.exports = {
         base: {
             rpcUrl: process.env.BASE_RPC_URL,
             chainId: 8453,
-            topUpAmount: 0.001,
+            topUpAmount: parseFloat(process.env.BASE_TOP_UP_AMOUNT), 
+            balanceThreshold: parseFloat(process.env.BASE_BALANCE_THRESHOLD), 
         },
         sepolia: {
             rpcUrl: process.env.SEPOLIA_RPC_URL,
-            chainId: 84532,
-            topUpAmount: 0.002,
+            chainId: 11155111,
+            topUpAmount: parseFloat(process.env.SEPOLIA_TOP_UP_AMOUNT),
+            balanceThreshold: parseFloat(process.env.SEPOLIA_BALANCE_THRESHOLD),
         },
         chiado: {
             rpcUrl: process.env.CHIADO_RPC_URL,
             chainId: 10200,
-            topUpAmount: 0.0015,
+            topUpAmount: parseFloat(process.env.CHIADO_TOP_UP_AMOUNT),
+            balanceThreshold: parseFloat(process.env.CHIADO_BALANCE_THRESHOLD),
         },
         xdaiMainnet: {
             rpcUrl: process.env.XDAI_MAINNET_RPC_URL,
             chainId: 100,
-            topUpAmount: 0.003,
+            topUpAmount: parseFloat(process.env.XDAI_MAINNET_TOP_UP_AMOUNT),
+            balanceThreshold: parseFloat(process.env.XDAI_MAINNET_BALANCE_THRESHOLD),
         },
     },
     walletAddresses: JSON.parse(process.env.WALLET_ADDRESS || '[]'),
-    balanceThreshold: parseFloat(process.env.BALANCE_THRESHOLD),
     senderPrivateKey: process.env.SENDER_PRIVATE_KEY,
     senderWalletAddress: process.env.SENDER_WALLET_ADDRESS
 };
