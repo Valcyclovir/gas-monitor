@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { checkBalance, sendETHIfNeeded } = require('./src/modules/blockchainService.js');
+const { checkBalance, sendTokenIfNeeded } = require('./src/modules/blockchainService.js');
 const { sendMessage } = require('./src/modules/telegramService.js');
 const { walletAddresses, senderPrivateKey, senderWalletAddress, networks } = require('./src/config');
 
@@ -25,7 +25,7 @@ async function monitorAndTopUpWallets() {
                 await sendMessage(`Initiating top-up for ${address} on ${networkName}. Current balance: ${balance} ETH.`);
                 
                 try {
-                    await sendETHIfNeeded(networkName, senderPrivateKey, address, topUpAmount);
+                    await sendTokenIfNeeded(networkName, senderPrivateKey, address, topUpAmount);
                     console.log(`Top-up successful for ${address} on ${networkName}`);
                     await sendMessage(`Top-up successful for ${address} on ${networkName}`);
                 } catch (error) {
